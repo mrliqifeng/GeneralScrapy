@@ -1,0 +1,50 @@
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
+    <xsl:template match="/">
+        <xsl:for-each select="//div[@class='nei02_04_01']/ul/li">
+            <!--- links为框架固定字段，在框架中links字段固定表示为下一深度的链接 depth代表当前页深度 -->
+            <links depth="1">
+                <xsl:value-of select="em/a/@href"/>
+            </links>
+        </xsl:for-each>
+
+            <!--- links为框架固定字段，在框架中links字段固定表示为下一深度的链接 depth代表当前页深度 -->
+            <next_link>
+                <xsl:value-of select="//a[contains(text(),'下一页')]/@href"/>
+            </next_link>
+
+        <xsl:for-each select="//div[@class='nei02_04_01']/ul/li">
+            <!--- type为自定义采集的字段 depth代表当前页深度 -->
+            <type depth="1">
+                <xsl:value-of select="string(span/tt/a)"/>
+            </type>
+        </xsl:for-each>
+
+        <xsl:for-each select="//div[@class='nei02_04_01']/ul/li">
+            <!--- release_time为自定义采集的字段 -->
+            <release_time depth="1">
+                <xsl:value-of select="string(i)"/>
+            </release_time>
+        </xsl:for-each>
+
+
+        <xsl:for-each select="//div[@class='nei02_04_01']/ul/li">
+            <city depth="1">
+                <xsl:value-of select="string(span/b/a)"/>
+            </city>
+        </xsl:for-each>
+
+        <project_name depth="2">
+            <xsl:value-of select="//div[@class='title']"/>
+        </project_name>
+
+        <!--<full_text depth="2">-->
+            <!--<xsl:value-of select="translate(string(//div[@class='nei03_02']),'&#13;','')"/>-->
+        <!--</full_text>-->
+
+        <money depth="2">
+            <xsl:value-of select="//td[@class='tb01'][contains(text(),'万元')]/following-sibling::*[1]"/>
+        </money>>
+
+    </xsl:template>
+
+</xsl:stylesheet>
