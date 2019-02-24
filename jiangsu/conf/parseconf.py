@@ -26,7 +26,7 @@ class Get_conf:
             print(e)
 
     def get_xslt_file(self):
-        return self.conf_path + '/' + self.conf_dict.get('rule').get('rulename')
+        return self.conf_path + '/rule/' + self.conf_dict.get('rule').get('rulename')
 
     def get_uuid(self):
         uuid = self.conf_dict.get("info").get("uuid")

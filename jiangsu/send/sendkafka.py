@@ -34,7 +34,7 @@ class InitKafka:
         self.topic = topic
 
     def send_data(self, data):
-        self.producer.send(self.topic, data)
+        self.producer.send(self.topic, data.encode("utf-8"))
 
     def close(self):
         self.producer.close()
@@ -42,5 +42,5 @@ class InitKafka:
 
 if __name__ == "__main__":
     inint = InitKafka("world")
-    inint.send_data("dsaw".encode("utf-8"))
+    inint.send_data("dsaw")
     inint.close()

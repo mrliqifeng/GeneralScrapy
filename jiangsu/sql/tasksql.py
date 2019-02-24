@@ -84,7 +84,7 @@ def writeconf(taskid):
     session = DBSession()
     taskinfo = session.query(TaskInfo).filter(TaskInfo.id == taskid).first()
     user = session.query(User).filter(User.id == 20).first()
-    guizeFile = open(sys.path[1] + "\\jiangsu\\conf\\" + taskinfo.rulename, 'w', encoding='utf-8')
+    guizeFile = open(sys.path[1] + "\\jiangsu\\conf\\rule\\" + taskinfo.rulename, 'w', encoding='utf-8')
     guizeFile.write(taskinfo.rulecontent)
     guizeFile.close()
     conf = configparser.ConfigParser()
@@ -94,6 +94,7 @@ def writeconf(taskid):
     conf.set("rule", 'rulename', taskinfo.rulename)
     conf.set("info", "hostname", taskinfo.hostname)
     conf.set("info", "taskname", taskinfo.taskname)
+    conf.set("info", "url", taskinfo.url)
     conf.set("info", "uuid", taskinfo.uuid)
     conf.set("info", "user", user.username)
     with open(sys.path[1] + "\\jiangsu\\conf\\task.ini", 'w') as fw:
