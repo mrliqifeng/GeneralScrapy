@@ -4,6 +4,7 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+import json
 
 from jiangsu.sql.scrapysql import getCunchu
 from jiangsu.send.sendkafka import *
@@ -14,6 +15,7 @@ from jiangsu.conf.parseconf import scrapy_conf
 UUID = task_conf.get_uuid()
 TASKID = task_conf.get_taskid()
 MQ = get_or_save_mq("pythonjava")
+KA = get_or_save_ka("spark")
 
 
 class JiangsuPipeline(object):
@@ -29,10 +31,9 @@ class JiangsuPipeline(object):
     def process_item(self, item, spider):
         for one in self.cunchu_list:
             one.write(item['info'])
-
+        # print(type(item['info']))
+        KA.send_data(json.dumps(item['info']))
     def close_spider(self, spider):
         print("****************close_spider*******************")
-        # self.kafka.close()
-        # self.dao.deleteTask(hostname, taskname)
         update_status(0, TASKID)
         MQ.send_data("爬虫已结束运行")

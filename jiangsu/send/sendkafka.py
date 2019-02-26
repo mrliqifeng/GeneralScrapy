@@ -1,7 +1,11 @@
+import json
+import time
+
 import pika
 from kafka import KafkaProducer
 
 MQ_DICT = {}
+KA_DICT = {}
 
 
 def get_or_save_mq(queue_name):
@@ -12,6 +16,16 @@ def get_or_save_mq(queue_name):
         mq = InitMq(queue_name)
         MQ_DICT[queue_name] = mq
         return mq
+
+
+def get_or_save_ka(topic_name):
+    ka = KA_DICT.get(topic_name)
+    if ka:
+        return ka
+    else:
+        ka = InitKafka(topic_name)
+        KA_DICT[topic_name] = ka
+        return ka
 
 
 class InitMq:
@@ -34,13 +48,14 @@ class InitKafka:
         self.topic = topic
 
     def send_data(self, data):
-        self.producer.send(self.topic, data.encode("utf-8"))
+        self.producer.send(self.topic, data.encode("utf-8"))#
 
     def close(self):
         self.producer.close()
 
 
 if __name__ == "__main__":
-    inint = InitKafka("world")
-    inint.send_data("dsaw")
-    inint.close()
+    inint = InitKafka("spark")
+    for k in range(100):
+        inint.send_data(json.dumps({"one":"李奇峰"}))
+        time.sleep(1)
