@@ -1,15 +1,19 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
     <xsl:template match="/">
-        <!--<xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">-->
-            <!--<links depth="1">-->
-                <!--<xsl:value-of select="div[2]/h2/a/@href"/>-->
-            <!--</links>-->
-        <!--</xsl:for-each>-->
-
+        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
+            <links depth="1">
+                <xsl:value-of select="div[2]/h2/a/@href"/>
+            </links>
+        </xsl:for-each>
 
         <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
             <title depth="1">
-                <xsl:value-of select="div[2]/h2/a/@title"/>
+                <xsl:when test="div[2]/h2/a/@titleda">
+                    <xsl:value-of select="div[2]/h2/a/@title"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="title is null"/>
+                </xsl:otherwise>
             </title>
         </xsl:for-each>
 

@@ -11,7 +11,6 @@ from jiangsu.spiders.urlproduce import UrlProduce
 from jiangsu.conf.parseconf import task_conf
 
 URLPRODUCE = UrlProduce()
-print(task_conf.conf_path)
 UUID = task_conf.get_uuid()
 MQ = get_or_save_mq("pythonjava")
 

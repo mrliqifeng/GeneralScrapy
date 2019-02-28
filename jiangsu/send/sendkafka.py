@@ -58,4 +58,5 @@ if __name__ == "__main__":
     inint = InitKafka("spark")
     for k in range(100):
         inint.send_data(json.dumps({"one":"李奇峰"}))
+        print(json.dumps({"one":"李奇峰"}))
         time.sleep(1)

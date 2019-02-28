@@ -1,25 +1,20 @@
-import urllib
+import json
 
-import requests
-import threading
+from jiangsu.send.sendkafka import get_or_save_mq
 
-# proxies = {
-#     "http": "http://101.110.118.20:8080",
-# }
-#
-# s = requests.get('https://book.douban.com/tag/%E6%97%85%E8%A1%8C', proxies=proxies)
-#
+mq = get_or_save_mq("javapython")
 
-# def get_douban():
-#     for i in range(0, 1):
-#         r = requests.get("https://book.douban.com/tag/%E6%97%85%E8%A1%8C")
-#         print(r.text)
-#
-# get_douban()
 
-# threads = []
-# for pn in range(15):
-#     threads.append(threading.Thread(target=get_douban))
-# for t in threads:
-#     t.start()
-print("dsaw")
+def start():
+    mq.send_data(json.dumps({"taskid": 1, "method": "start"}))
+    print("发送启动命令")
+
+
+def stop():
+    mq.send_data(json.dumps({"taskid": 1, "method": "stop"}))
+    print("发送停止命令")
+
+
+if __name__ == "__main__":
+    # start()
+    stop()

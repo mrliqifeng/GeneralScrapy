@@ -9,7 +9,7 @@ TASKSTATUS = None
 
 
 def go(mq):
-    # if TASKSTATUS:
+      # if TASKSTATUS:
         if TASKSTATUS.status == 1:
             print("此爬虫正在运行")
             mq.send_data("此爬虫正在运行")

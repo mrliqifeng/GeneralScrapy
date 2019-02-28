@@ -55,18 +55,19 @@ class ParseXml:
         if tags:  # 如果标签名存在
             if isEnd:
                 if len(tags) == 1:  # 如果标签长度为1且存在文本内容
-                    return str(tags[0].string) if tags[0].string else None
+                    return str(tags[0].string.replace("\n", "").replace("\t", "").strip()) if tags[0].string else None
                 else:
                     content_string = ""
                     for one in tags:
                         if one.string:
-                            content_string += one.string+","
-                    return content_string if content_string else None
+                            content_string += one.string + ","
+                    return content_string.replace("\n", "").replace("\t", "").strip() if content_string else None
             else:
                 content_list = []
                 for one in tags:
                     if one.string:
-                        content_list.append(one.string)
+                        out = one.string.replace("\n", "").replace("\t", "").strip()
+                        content_list.append(out)
                 return content_list if content_list else None
         else:  # 不存在则返回None
             return None
@@ -85,7 +86,7 @@ class ParseXml:
                 tag_list.append(tag_k)
         tag_set = set(tag_list)
         for one_tag in tag_set:
-            tag_content = self.get_item(one_tag,isEnd)  # 获取当前标签的内容
+            tag_content = self.get_item(one_tag, isEnd)  # 获取当前标签的内容
             if tag_content:
                 depth_content_dict[one_tag] = tag_content
         return depth_content_dict

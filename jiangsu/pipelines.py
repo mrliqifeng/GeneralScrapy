@@ -15,7 +15,7 @@ from jiangsu.conf.parseconf import scrapy_conf
 UUID = task_conf.get_uuid()
 TASKID = task_conf.get_taskid()
 MQ = get_or_save_mq("pythonjava")
-KA = get_or_save_ka("spark")
+# KA = get_or_save_ka("spark")
 
 
 class JiangsuPipeline(object):
@@ -23,7 +23,7 @@ class JiangsuPipeline(object):
         print("****************__init__*******************")
         mysql_conf = scrapy_conf.get_scrapy_mysql()
         mysql_conf['table'] = task_conf.get_table_name()
-        csv_conf = scrapy_conf.get_csv_path() + task_conf.get_table_name() + '.csv'
+        csv_conf = scrapy_conf.get_csv_path() + task_conf.get_csv_name()
         self.cunchu_list = []
         self.cunchu_list.append(getCunchu("mysql", **mysql_conf))
         self.cunchu_list.append(getCunchu("csv", **{"path": csv_conf}))
@@ -32,7 +32,8 @@ class JiangsuPipeline(object):
         for one in self.cunchu_list:
             one.write(item['info'])
         # print(type(item['info']))
-        KA.send_data(json.dumps(item['info']))
+        # KA.send_data(json.dumps(item['info']))
+
     def close_spider(self, spider):
         print("****************close_spider*******************")
         update_status(0, TASKID)
