@@ -10,6 +10,10 @@
 
 	            </links>
 
+        <next_link>
+            <xsl:value-of select="//*[@id='subject_list']/div[2]/span[@class='next']/a/@href"/>
+        </next_link>
+                
 	        </xsl:for-each>
 
             <xsl:for-each select="//*[@id='subject_list']/ul/li">
@@ -75,5 +79,6 @@
 	        </xsl:for-each>
 
 	    </xsl:template>
+
 
 	</xsl:stylesheet>

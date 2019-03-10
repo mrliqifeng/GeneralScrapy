@@ -53,9 +53,10 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'jiangsu.middlewares.JiangsuDownloaderMiddleware': 543,
-# }
+if scrapy_conf.get_dongtai() == "true":
+    DOWNLOADER_MIDDLEWARES = {
+        'jiangsu.middlewares.SeleniumMiddleware': 543,
+    }
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -66,7 +67,7 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'jiangsu.pipelines.JiangsuPipeline': 300,
+    'jiangsu.pipelines.JiangsuPipeline': 300,
 }
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'

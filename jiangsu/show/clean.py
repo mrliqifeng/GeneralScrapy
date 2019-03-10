@@ -66,8 +66,7 @@ def clean():
     douban['author'] = douban['author'].str.replace(" ", "")
     douban['tag'] = douban['tag'].str.split(':').str[1].str.strip()
     douban['money'] = douban['money'].str.replace("元", "").str.replace("CNY ", "").str.replace("（全三册）", "").str.replace(
-        "NT$ ", "").str.replace("NT$", "").str.replace("NT", "").str.replace(" TWD", "").str.replace("$ ",
-                                                                                                     "").str.replace(
+        "NT$ ", "").str.replace("NT$", "").str.replace("NT", "").str.replace(" TWD", "").str.replace("$ ","").str.replace(
         "$", "").str.replace("HKD", "").str.replace("HK$", "")
     money_bak = douban['money']
     index_money = []

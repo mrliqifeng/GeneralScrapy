@@ -4,8 +4,14 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+import time
 
 from scrapy import signals
+from scrapy.http import HtmlResponse
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+from jiangsu.conf.parseconf import scrapy_conf
 
 
 class JiangsuSpiderMiddleware(object):
@@ -56,6 +62,27 @@ class JiangsuSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
+class SeleniumMiddleware(object):
+    def __init__(self):
+        print("此任务通过chrome爬取动态网页内容")
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+        self.driver = webdriver.Chrome(chrome_options=chrome_options)
+
+    def __del__(self):
+        self.driver.close()
+
+    def process_request(self, request, spider):
+        try:
+            self.driver.get(request.url)
+            return HtmlResponse(url=request.url, body=self.driver.page_source,
+                                request=request, encoding="utf-8", status=200)
+
+        except:
+            return HtmlResponse(url=request.url, status=500, request=request)
+
+
 class JiangsuDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
@@ -78,6 +105,7 @@ class JiangsuDownloaderMiddleware(object):
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
+        print(request.url)
         return None
 
     def process_response(self, request, response, spider):

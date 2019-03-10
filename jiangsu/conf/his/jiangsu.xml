@@ -1,27 +1,20 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
     <xsl:template match="/">
-        <xsl:for-each select="/html/body/div/div/div[1]/div[1]/ul/li">
+        <xsl:for-each select="//*[@id='newsList']/ul/li">
             <links depth="1">
                 <xsl:value-of select="a/@href"/>
             </links>
         </xsl:for-each>
 
+        <next_link>
+            <xsl:value-of select="//*[@id='newsPage']/div/a[contains(text(),'下一页')]/@href"/>
+        </next_link>
 
-        <xsl:for-each select="/html/body/div/div/div[1]/div[1]/ul/li">
+        <xsl:for-each select="//*[@id='newsList']/ul/li">
             <project_name depth="1">
                 <xsl:value-of select="string(a)"/>
             </project_name>
         </xsl:for-each>
-
-        <xsl:for-each select="/html/body/div/div/div[1]/div[1]/ul/li">
-            <release_time depth="1">
-                <xsl:value-of select="string(span)"/>
-            </release_time>
-        </xsl:for-each>
-
-        <type depth="2">
-            <xsl:value-of select="/html/body/div[2]/div[2]/div[1]/a[3]"/>
-        </type>
 
         <province depth="1">江苏</province>
 

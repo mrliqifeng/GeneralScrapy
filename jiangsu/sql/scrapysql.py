@@ -4,7 +4,6 @@ import pandas as pd
 from jiangsu.send.sendkafka import *
 from jiangsu.conf.parseconf import task_conf
 
-UUID = task_conf.get_uuid()
 MQ = get_or_save_mq("pythonjava")
 
 
@@ -61,7 +60,7 @@ class DataToCSV:
             f = open(path, 'w', encoding='utf-8', newline='')
             self.writer = csv.writer(f)
         except FileNotFoundError as e:
-            MQ.send_data('No such file or directory: D:/dsaw/sql.csv')
+            MQ.send_data('No such file or directory: %s' % path)
             raise e
         except PermissionError as e:
             MQ.send_data("此文件正被占用")

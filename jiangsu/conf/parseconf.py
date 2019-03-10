@@ -35,7 +35,10 @@ class ScrapyConf:
         return self.conf_dict.get("scrapy_csv").get("path")
 
     def get_delay_time(self):
-        return self.conf_dict.get("delay").get("delay_time")
+        return self.conf_dict.get("settings").get("delay_time")
+
+    def get_dongtai(self):
+        return self.conf_dict.get("settings").get("dongtai")
 
 
 class TaskConf:

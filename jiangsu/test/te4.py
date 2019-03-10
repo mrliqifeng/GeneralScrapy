@@ -6,15 +6,15 @@ mq = get_or_save_mq("javapython")
 
 
 def start():
-    mq.send_data(json.dumps({"taskid": 1, "method": "start"}))
+    mq.send_data(json.dumps({"taskid": 18, "method": "start"}))
     print("发送启动命令")
 
 
 def stop():
-    mq.send_data(json.dumps({"taskid": 1, "method": "stop"}))
+    mq.send_data(json.dumps({"taskid": 18, "method": "stop"}))
     print("发送停止命令")
 
 
 if __name__ == "__main__":
-    # start()
-    stop()
+    start()
+    # stop()

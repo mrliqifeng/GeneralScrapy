@@ -1,48 +1,84 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
-    <xsl:template match="/">
-        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
-            <links depth="1">
-                <xsl:value-of select="div[2]/h2/a/@href"/>
-            </links>
-        </xsl:for-each>
 
-        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
-            <title depth="1">
-                <xsl:when test="div[2]/h2/a/@titleda">
+	    <xsl:template match="/">
+
+	        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
+
+	            <links depth="1">
+
+	                <xsl:value-of select="div[2]/h2/a/@href"/>
+
+	            </links>
+
+        <next_link>
+            <xsl:value-of select="//*[@id='subject_list']/div[2]/span[@class='next']/a/@href"/>
+        </next_link>
+
+	        </xsl:for-each>
+
+            <xsl:for-each select="//*[@id='subject_list']/ul/li">
+	            <ebook depth="1">
+                    <xsl:choose>
+                        <xsl:when test="div[2]/div[3]/div[3]/a">
+                                yes
+                        </xsl:when>
+                        <xsl:otherwise>
+                                no
+                        </xsl:otherwise>
+                    </xsl:choose>
+	            </ebook>
+	        </xsl:for-each>
+	        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
+
+	            <title depth="1">
                     <xsl:value-of select="div[2]/h2/a/@title"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="title is null"/>
-                </xsl:otherwise>
-            </title>
-        </xsl:for-each>
+	            </title>
 
-        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
-            <info depth="1">
-                <xsl:value-of select="normalize-space(div[2]/div[1]/text())"/>
-            </info>
-        </xsl:for-each>
+	        </xsl:for-each>
 
-        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
-            <type depth="1">
-                <xsl:value-of select="normalize-space(//div[@id='content']/h1/text())"/>
-            </type>
-        </xsl:for-each>
+	        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
 
-        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
-            <star depth="1">
-                <xsl:value-of select="normalize-space(div[2]/div[2]/span[2]/text())"/>
-            </star>
-        </xsl:for-each>
+	            <info depth="1">
 
-         <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
-            <people depth="1">
-                <xsl:value-of select="normalize-space(div[2]/div[2]/span[3]/text())"/>
-            </people>
-        </xsl:for-each>
+	                <xsl:value-of select="normalize-space(div[2]/div[1]/text())"/>
 
-        <!--<other depth="2">dsaw</other>-->
+	            </info>
 
-    </xsl:template>
+	        </xsl:for-each>
 
-</xsl:stylesheet>
+	        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
+
+	            <type depth="1">
+
+	                <xsl:value-of select="normalize-space(//div[@id='content']/h1/text())"/>
+
+	            </type>
+
+	        </xsl:for-each>
+
+	        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
+
+	            <star depth="1">
+
+	                <xsl:value-of select="normalize-space(div[2]/div[2]/span[2]/text())"/>
+
+	            </star>
+
+	        </xsl:for-each>
+
+
+
+	         <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
+
+	            <people depth="1">
+
+	                <xsl:value-of select="normalize-space(div[2]/div[2]/span[3]/text())"/>
+
+	            </people>
+
+	        </xsl:for-each>
+
+	    </xsl:template>
+
+
+	</xsl:stylesheet>

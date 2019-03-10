@@ -24,15 +24,13 @@ class ZhaotoubiaoSpider(scrapy.Spider):
 
     # start_urls = "https://book.douban.com/tag/%E5%B0%8F%E8%AF%B4"
 
-    # 初始化DataToMysql类实例，此实例用来将爬取的内容写入到mysql数据库
-
     def start_requests(self):
         #     """
         #     此方法作测试用方法，仅使用部分网页检测规则文件是否可用
         #     :return:
         #     """
         # url = "http://www.ccgp-hainan.gov.cn/cgw/cgw_list.jsp"
-        url = "https://book.douban.com/tag/%E5%B0%8F%E8%AF%B4"
+        url = "http://www.ccgp-jiangsu.gov.cn/cgxx/cggg/"
         yield Request(url, callback=self.parse)
 
     def parse(self, response):
