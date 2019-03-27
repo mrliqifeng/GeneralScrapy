@@ -1,5 +1,17 @@
 import configparser
 import os
+from urllib import parse
+
+
+def split_url(url):
+    url = str(url)
+    if url.startswith(":"):
+        urls = url.split(":")
+        result_urls = [parse.quote(one) for one in urls]
+        result = ":".join(result_urls)
+        return result
+    else:
+        return parse.quote(url)
 
 
 class ScrapyConf:
@@ -33,12 +45,6 @@ class ScrapyConf:
 
     def get_csv_path(self):
         return self.conf_dict.get("scrapy_csv").get("path")
-
-    def get_delay_time(self):
-        return self.conf_dict.get("settings").get("delay_time")
-
-    def get_dongtai(self):
-        return self.conf_dict.get("settings").get("dongtai")
 
 
 class TaskConf:
@@ -75,6 +81,10 @@ class TaskConf:
         taskid = self.conf_dict.get("info").get("taskid")
         return taskid
 
+    def get_taskname(self):
+        taskname = self.conf_dict.get("info").get("taskname")
+        return taskname
+
     def get_url(self):
         url = self.conf_dict.get("info").get("url")
         return url
@@ -86,6 +96,18 @@ class TaskConf:
     def get_csv_name(self):
         table_name = self.conf_dict.get("info").get("user") + "_" + self.conf_dict.get("info").get("taskname") + ".csv"
         return table_name
+
+    def get_delay_time(self):
+        return int(self.conf_dict.get("settings").get("delay_time"))
+
+    def get_dongtai(self):
+        return self.conf_dict.get("settings").get("dongtai")
+
+    def get_zuhe_link(self):
+        return self.conf_dict.get("settings").get("zuhe_link")
+
+    def get_zengliang(self):
+        return self.conf_dict.get("settings").get("zengliang")
 
 
 task_conf = TaskConf("task.ini")

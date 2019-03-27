@@ -8,7 +8,7 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-from jiangsu.conf.parseconf import scrapy_conf
+from jiangsu.conf.parseconf import task_conf
 
 BOT_NAME = 'jiangsu'
 
@@ -53,11 +53,16 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-if scrapy_conf.get_dongtai() == "true":
+
+
+if task_conf.get_dongtai() == "true":
     DOWNLOADER_MIDDLEWARES = {
         'jiangsu.middlewares.SeleniumMiddleware': 543,
     }
 
+# DOWNLOADER_MIDDLEWARES = {
+#         'jiangsu.middlewares.FilterMiddleware': 543,
+#     }
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
 # EXTENSIONS = {
@@ -77,7 +82,7 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, lik
 # AUTOTHROTTLE_ENABLED = False
 # The initial download delay
 # AUTOTHROTTLE_START_DELAY = 5
-DOWNLOAD_DELAY = scrapy_conf.get_delay_time()
+DOWNLOAD_DELAY = task_conf.get_delay_time()
 # The maximum download delay to be set in case of high latencies
 # AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to

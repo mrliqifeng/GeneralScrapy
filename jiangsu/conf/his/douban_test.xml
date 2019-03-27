@@ -8,9 +8,19 @@
 	            </links>
 	        </xsl:for-each>
 
-        <!--<next_page>-->
-            <!--<xsl:value-of select="//*[@id='subject_list']/div[2]/span[@class='next']/a/@href"/>-->
-        <!--</next_page>-->
+        <xsl:for-each select="//*[@id='content']/div/div[1]/div[2]/div/table/tbody/tr">
+            <next_link next_link_depth = "3">
+                <xsl:value-of select="td[1]/a/@href"/>
+            </next_link>
+        </xsl:for-each>
+
+            <!--<next_link1 next_link_depth = "1">-->
+                <!--<xsl:value-of select="//*[@id='content']/div/div[2]/h2/span[2]/a/@href"/>-->
+            <!--</next_link1>-->
+
+            <next_link next_link_depth = "2">
+                <xsl:value-of select="//*[@id='content']/div/div[1]/div[1]/span/a/@href"/>
+            </next_link>
 
             <xsl:for-each select="//*[@id='subject_list']/ul/li">
 	            <ebook depth="1">
@@ -24,7 +34,6 @@
                     </xsl:choose>
 	            </ebook>
 	        </xsl:for-each>
-
 	        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
 
 	            <title depth="1">

@@ -31,6 +31,10 @@ class TaskInfo(Base):
     rulename = Column(String)
     rulecontent = Column(String)
     uuid = Column(String)
+    dongtai = Column(String)
+    delay_time = Column(String)
+    zuhe_link = Column(String)
+    zengliang = Column(String)
     user_id = Column(Integer, ForeignKey('users.id'))
 
 

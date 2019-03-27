@@ -1,0 +1,135 @@
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
+
+	    <xsl:template match="/">
+
+            <!--详情链接-->
+	        <xsl:for-each select="//*[@id='content']/div[1]/ul/li">
+	            <links depth="1">
+	                <xsl:value-of select="div[1]/div[1]/a/@href"/>
+	            </links>
+	        </xsl:for-each>
+
+	 <next_page>
+            <xsl:value-of select="//*[@id='content']//a[contains(text(),'下一页')]/@href"/>
+        </next_page>
+
+            <!--一级组合链接-->
+		<xsl:for-each select="/html/body/div[3]/div/div[1]/dl[2]/dd/div[1]/div/a">
+            <next_link1 next_link_depth = "1">
+                <xsl:value-of select="./@href"/>
+            </next_link1>
+        </xsl:for-each>
+
+        <!--二级组合链接-->
+		<xsl:for-each select="/html/body/div[3]/div/div[1]/dl[2]/dd/div[1]/div[2]/a">
+            <next_link2 next_link_depth = "2">
+                        <xsl:value-of select="./@href"/>
+            </next_link2>
+        </xsl:for-each>
+                                    <!--项目名称-->
+	            <name depth="2">
+                        <xsl:value-of select="//div[@class='title']/h1/text()"/>
+	            </name>
+
+                     <!--小区-->
+	            <xiaoqu depth="2">
+                        <xsl:value-of select="translate(/html/body/div[4]/div/div/a[5]/text(),'二手房','')"/>
+	            </xiaoqu>
+
+                     <!--区域-->
+	            <district depth="2">
+                    <xsl:choose>
+                        <xsl:when test="translate(/html/body/div[4]/div/div/a[3]/text(),'二手房','')">
+                                <xsl:value-of select="translate(/html/body/div[4]/div/div/a[3]/text(),'二手房','')"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                                empty
+                        </xsl:otherwise>
+                    </xsl:choose>
+	            </district>
+
+            <!--街道-->
+	            <street depth="2">
+                        <xsl:value-of select="translate(/html/body/div[4]/div/div/a[4]/text(),'二手房','')"/>
+	            </street>
+
+            <!--总价-->
+	            <all_money depth="2">
+                        <xsl:value-of select="//span[@class='total']/text()"/>
+	            </all_money>
+
+            <!--均价-->
+	            <avg_price depth="2">
+                    <xsl:value-of select="//span[@class='unitPriceValue']/text()"/>
+	            </avg_price>
+
+            <!--建筑时间-->
+	            <build_year depth="2">
+                    <xsl:value-of select="substring-before(//div[@class='area']//div[@class='subInfo']/text(),'年')"/>
+	            </build_year>
+
+                <!--关注人数-->
+	            <favnum depth="2">
+                    <xsl:value-of select="//span[@id='favCount']/text()"/>
+	            </favnum>
+
+                            <!--看过人数-->
+	            <looknum depth="2">
+                    <xsl:value-of select="//span[@id='cartCount']/text()"/>
+	            </looknum>
+
+
+
+
+            <!--建筑面积-->
+	            <covered_area depth="2">
+                    <xsl:value-of select="//span[@class='label'][contains(text(),'建筑面积')]/../text()"/>
+	            </covered_area>
+
+            <!--房子面积-->
+	            <house_area depth="2">
+                    <xsl:value-of select="//span[@class='label'][contains(text(),'套内面积')]/../text()"/>
+	            </house_area>
+
+            <!--有无电梯-->
+            <elevator depth="2">
+                <xsl:value-of select="//span[@class='label'][contains(text(),'配备电梯')]/../text()"/>
+            </elevator>
+
+            <!--所在楼层-->
+            <floor depth="2">
+                <xsl:value-of select="//span[@class='label'][contains(text(),'所在楼层')]/../text()"/>
+            </floor>
+
+            <!--装修情况-->
+            <decorate depth="2">
+                <xsl:value-of select="//span[@class='label'][contains(text(),'装修情况')]/../text()"/>
+            </decorate>
+
+            <!--户型-->
+	            <house_type depth="2">
+                    <xsl:value-of select="//span[@class='label'][contains(text(),'房屋户型')]/../text()"/>
+	            </house_type>
+
+                <!--房屋年限-->
+	            <house_year depth="2">
+                    <xsl:value-of select="//span[@class='label'][contains(text(),'房屋年限')]/following-sibling::*[1]/text()"/>
+	            </house_year>
+
+            <!--挂牌时间-->
+	            <show_time depth="2">
+                    <xsl:value-of select="//span[@class='label'][contains(text(),'挂牌时间')]/following-sibling::*[1]/text()"/>
+	            </show_time>
+
+                <!--房屋用途-->
+                <house_use depth="2">
+                    <xsl:value-of select="//span[@class='label'][contains(text(),'房屋用途')]/following-sibling::*[1]/text()"/>
+	            </house_use>
+
+                <!--交易权属-->
+                <exchange_type depth="2">
+                    <xsl:value-of select="//span[@class='label'][contains(text(),'交易权属')]/following-sibling::*[1]/text()"/>
+	            </exchange_type>
+
+	    </xsl:template>
+	</xsl:stylesheet>

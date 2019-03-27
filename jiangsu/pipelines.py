@@ -31,7 +31,7 @@ class JiangsuPipeline(object):
     def process_item(self, item, spider):
         for one in self.cunchu_list:
             one.write(item['info'])
-        # print(type(item['info']))
+        print(item['info'])
         # KA.send_data(json.dumps(item['info']))
 
     def close_spider(self, spider):

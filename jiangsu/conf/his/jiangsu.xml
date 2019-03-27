@@ -6,15 +6,21 @@
             </links>
         </xsl:for-each>
 
-        <next_link>
+        <next_page>
             <xsl:value-of select="//*[@id='newsPage']/div/a[contains(text(),'下一页')]/@href"/>
-        </next_link>
+        </next_page>
 
         <xsl:for-each select="//*[@id='newsList']/ul/li">
             <project_name depth="1">
                 <xsl:value-of select="string(a)"/>
             </project_name>
         </xsl:for-each>
+
+
+            <project_time depth="2">
+                    <xsl:value-of select="/html/body/div[2]/div[2]/div[2]/div[2]/span"/>
+            </project_time>
+
 
         <province depth="1">江苏</province>
 

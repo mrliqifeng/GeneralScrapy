@@ -1,6 +1,6 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
     <xsl:template match="/">
-        <xsl:for-each select="//div[@class='nei02_04_01']/ul/li">
+        <xsl:for-each select="/html/body/div[3]/div[1]/div[1]/div/div[2]/div[1]/ul/li">
             <!--- links为框架固定字段，在框架中links字段固定表示为下一深度的链接 depth代表当前页深度 -->
             <links depth="1">
                 <xsl:value-of select="em/a/@href"/>
@@ -8,28 +8,55 @@
         </xsl:for-each>
 
             <!--- links为框架固定字段，在框架中links字段固定表示为下一深度的链接 depth代表当前页深度 -->
-            <next_link>
+            <next_page>
                 <xsl:value-of select="//a[contains(text(),'下一页')]/@href"/>
-            </next_link>
+            </next_page>
 
-        <xsl:for-each select="//div[@class='nei02_04_01']/ul/li">
+
+
+        <next_link2 next_link = "2">
+            <xsl:value-of select="/html/body/div[3]/div/div[1]/dl[2]/dd/div[1]/div[1]/a[1]"/>
+        </next_link2>
+
+        <xsl:for-each select="/html/body/div[3]/div[1]/div[1]/div/div[2]/div[1]/ul/li">
             <!--- type为自定义采集的字段 depth代表当前页深度 -->
             <type depth="1">
-                <xsl:value-of select="string(span/tt/a)"/>
+                <xsl:choose>
+                    <xsl:when test="string(em/a)">
+                            <xsl:value-of select="string(span/tt/a)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                            no type
+                    </xsl:otherwise>
+                </xsl:choose>
             </type>
         </xsl:for-each>
 
-        <xsl:for-each select="//div[@class='nei02_04_01']/ul/li">
+        <xsl:for-each select="/html/body/div[3]/div[1]/div[1]/div/div[2]/div[1]/ul/li">
             <!--- release_time为自定义采集的字段 -->
             <release_time depth="1">
-                <xsl:value-of select="string(i)"/>
+                <xsl:choose>
+                    <xsl:when test="string(i)">
+                            <xsl:value-of select="string(i)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                            no release_time
+                    </xsl:otherwise>
+                </xsl:choose>
             </release_time>
         </xsl:for-each>
 
 
-        <xsl:for-each select="//div[@class='nei02_04_01']/ul/li">
+        <xsl:for-each select="/html/body/div[3]/div[1]/div[1]/div/div[2]/div[1]/ul/li">
             <city depth="1">
-                <xsl:value-of select="string(span/b/a)"/>
+                <xsl:choose>
+                    <xsl:when test="string(span/b/a)">
+                            <xsl:value-of select="string(span/b/a)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                            no city
+                    </xsl:otherwise>
+                </xsl:choose>
             </city>
         </xsl:for-each>
 
@@ -42,9 +69,36 @@
         <!--</full_text>-->
 
         <money depth="2">
-            <xsl:value-of select="//td[@class='tb01'][contains(text(),'万元')]/following-sibling::*[1]"/>
-        </money>>
+            <xsl:choose>
+                    <xsl:when test="//td[@class='tb01'][contains(text(),'万元')]/following-sibling::*[1]">
+                            <xsl:value-of select="//td[@class='tb01'][contains(text(),'万元')]/following-sibling::*[1]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                            no money
+                    </xsl:otherwise>
+                </xsl:choose>
+        </money>
 
+        <project_id depth="2">
+            <xsl:choose>
+                    <xsl:when test="//td[@class='tb01'][contains(text(),'编号')]/following-sibling::*[1]">
+                            <xsl:value-of select="//td[@class='tb01'][contains(text(),'编号')]/following-sibling::*[1]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                            no project_id
+                    </xsl:otherwise>
+                </xsl:choose>
+        </project_id>
+
+        <information_source depth="2">
+            <xsl:choose>
+                    <xsl:when test="/html/body/div[3]/div[1]/div[1]/div/div[2]/div[2]/text()[1]">
+                            <xsl:value-of select="/html/body/div[3]/div[1]/div[1]/div/div[2]/div[2]/text()[1]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                            no information_source
+                    </xsl:otherwise>
+                </xsl:choose>
+        </information_source>
     </xsl:template>
-
 </xsl:stylesheet>
