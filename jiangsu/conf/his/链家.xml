@@ -31,27 +31,20 @@
                         <xsl:value-of select="//div[@class='title']/h1/text()"/>
 	            </name>
 
-                     <!--小区-->
-	            <xiaoqu depth="2">
-                        <xsl:value-of select="translate(/html/body/div[4]/div/div/a[5]/text(),'二手房','')"/>
-	            </xiaoqu>
-
                      <!--区域-->
 	            <district depth="2">
-                    <xsl:choose>
-                        <xsl:when test="translate(/html/body/div[4]/div/div/a[3]/text(),'二手房','')">
-                                <xsl:value-of select="translate(/html/body/div[4]/div/div/a[3]/text(),'二手房','')"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                                empty
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:value-of select="translate(/html/body/div[4]/div/div/a[3]/text(),'二手房','')"/>
 	            </district>
 
             <!--街道-->
 	            <street depth="2">
                         <xsl:value-of select="translate(/html/body/div[4]/div/div/a[4]/text(),'二手房','')"/>
 	            </street>
+
+                 <!--小区-->
+	            <xiaoqu depth="2">
+                        <xsl:value-of select="translate(/html/body/div[4]/div/div/a[5]/text(),'二手房','')"/>
+	            </xiaoqu>
 
             <!--总价-->
 	            <all_money depth="2">
@@ -106,15 +99,20 @@
                 <xsl:value-of select="//span[@class='label'][contains(text(),'装修情况')]/../text()"/>
             </decorate>
 
+             <!--产权年限-->
+                <house_life depth="2">
+                    <xsl:value-of select="//span[@class='label'][contains(text(),'产权年限')]/../text()"/>
+	            </house_life>
+
             <!--户型-->
 	            <house_type depth="2">
                     <xsl:value-of select="//span[@class='label'][contains(text(),'房屋户型')]/../text()"/>
 	            </house_type>
 
                 <!--房屋年限-->
-	            <house_year depth="2">
+	            <exchange_year depth="2">
                     <xsl:value-of select="//span[@class='label'][contains(text(),'房屋年限')]/following-sibling::*[1]/text()"/>
-	            </house_year>
+	            </exchange_year>
 
             <!--挂牌时间-->
 	            <show_time depth="2">
@@ -130,6 +128,8 @@
                 <exchange_type depth="2">
                     <xsl:value-of select="//span[@class='label'][contains(text(),'交易权属')]/following-sibling::*[1]/text()"/>
 	            </exchange_type>
+
+
 
 	    </xsl:template>
 	</xsl:stylesheet>

@@ -29,5 +29,5 @@ def split_url(url):
 
 
 if __name__ == "__main__":
-    # start(26)
-    stop(26)
+    start(26)
+    # stop(26)

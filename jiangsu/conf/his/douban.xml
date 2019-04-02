@@ -25,13 +25,13 @@
 	            </ebook>
 	        </xsl:for-each>
 
-	        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
+	        <!--<xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">-->
 
-	            <title depth="1">
-                    <xsl:value-of select="div[2]/h2/a/@title"/>
-	            </title>
+	            <!--<title depth="1">-->
+                    <!--<xsl:value-of select="div[2]/h2/a/@title"/>-->
+	            <!--</title>-->
 
-	        </xsl:for-each>
+	        <!--</xsl:for-each>-->
 
 	        <xsl:for-each select="/html/body/div[3]/div[1]/div/div[1]/div/ul/li">
 
@@ -84,6 +84,10 @@
 	            </star>
 
 	        </xsl:for-each>
+
+			<title depth="2">
+				<xsl:value-of select="//h1/span/text()"/>
+			</title>
 
 	    </xsl:template>
 

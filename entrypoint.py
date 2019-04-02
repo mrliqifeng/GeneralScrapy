@@ -9,23 +9,15 @@ TASKSTATUS = None
 
 
 def go(mq):
-      # if TASKSTATUS:
-        if TASKSTATUS.status == 1:
-            print("此爬虫正在运行")
-            mq.send_data("此爬虫正在运行")
-        else:
-            print("*********程序启动*************")
-            p = subprocess.Popen('scrapy crawl mySpider',
-                                 shell=True)  # -s JOBDIR=remain/%s' % name , stdout=subprocess.PIPE
-            update_status_pid(p.pid, 1, TASKINFO.id)
-            mq.send_data("爬虫启动成功")
-    # else:
-    #     print("*********程序启动*************")
-    #     p = subprocess.Popen('scrapy crawl mySpider',stdout=subprocess.PIPE,
-    #                          shell=True)  # -s JOBDIR=remain/%s' % name , stdout=subprocess.PIPE
-    #     init_status(p.pid, 1, TASKINFO.id)
-    #     mq.send_data("爬虫启动成功")
-
+    if TASKSTATUS.status == 1:
+        print("此爬虫正在运行")
+        mq.send_data("此爬虫正在运行")
+    else:
+        print("*********程序启动*************")
+        p = subprocess.Popen('scrapy crawl mySpider',
+                             shell=True)  # -s JOBDIR=remain/%s' % name , stdout=subprocess.PIPE
+        update_status_pid(p.pid, 1, TASKINFO.id)
+        mq.send_data("爬虫启动成功")
 
 def ki(mq):
     status = TASKSTATUS.status

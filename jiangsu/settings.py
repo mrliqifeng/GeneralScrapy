@@ -53,13 +53,16 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
+task_middlewares = {}
 
-
+if task_conf.get_zengliang() == "true":
+    task_middlewares["jiangsu.middlewares.DuplicatesMiddleware"] = 542
 if task_conf.get_dongtai() == "true":
-    DOWNLOADER_MIDDLEWARES = {
-        'jiangsu.middlewares.SeleniumMiddleware': 543,
-    }
+    task_middlewares["jiangsu.middlewares.SeleniumMiddleware"] = 543
 
+if task_middlewares:
+    DOWNLOADER_MIDDLEWARES = task_middlewares
+    print(DOWNLOADER_MIDDLEWARES)
 # DOWNLOADER_MIDDLEWARES = {
 #         'jiangsu.middlewares.FilterMiddleware': 543,
 #     }

@@ -8,7 +8,7 @@ MQ = get_or_save_mq("pythonjava")
 
 
 class DataToMysql:
-    def __init__(self, host, user, pwd, db, table, port=3306, **kwargs):
+    def __init__(self, host, user, pwd, db, table=None, port=3306, **kwargs):
         try:
             if not isinstance(port, int):
                 port = int(port)
@@ -55,9 +55,9 @@ class DataToMysql:
 
 
 class DataToCSV:
-    def __init__(self, path, **kwargs):
+    def __init__(self, path, wa, **kwargs):
         try:
-            f = open(path, 'w', encoding='utf-8', newline='')
+            f = open(path, wa, encoding='utf-8', newline='')
             self.writer = csv.writer(f)
         except FileNotFoundError as e:
             MQ.send_data('No such file or directory: %s' % path)

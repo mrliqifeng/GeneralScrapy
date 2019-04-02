@@ -15,6 +15,8 @@ from jiangsu.conf.parseconf import scrapy_conf
 UUID = task_conf.get_uuid()
 TASKID = task_conf.get_taskid()
 MQ = get_or_save_mq("pythonjava")
+
+
 # KA = get_or_save_ka("spark")
 
 
@@ -26,7 +28,10 @@ class JiangsuPipeline(object):
         csv_conf = scrapy_conf.get_csv_path() + task_conf.get_csv_name()
         self.cunchu_list = []
         self.cunchu_list.append(getCunchu("mysql", **mysql_conf))
-        self.cunchu_list.append(getCunchu("csv", **{"path": csv_conf}))
+        if task_conf.get_zengliang() == 'true':
+            self.cunchu_list.append(getCunchu("csv", **{"path": csv_conf, "wa": "a"}))
+        else:
+            self.cunchu_list.append(getCunchu("csv", **{"path": csv_conf, "wa": "w"}))
 
     def process_item(self, item, spider):
         for one in self.cunchu_list:

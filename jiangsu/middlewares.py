@@ -6,10 +6,14 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 import time
 
+import redis
 from scrapy import signals
 from scrapy.http import HtmlResponse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import pandas as pd
+from jiangsu.conf.parseconf import scrapy_conf, task_conf
+from jiangsu.sql.scrapysql import DataToMysql
 
 
 class JiangsuSpiderMiddleware(object):
@@ -60,16 +64,23 @@ class JiangsuSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class FilterMiddleware(object):
+class DuplicatesMiddleware(object):
     def __init__(self):
-        print("去重方法..............")
+        print("启动增量引擎*******************")
+        self.table_name = task_conf.get_table_name()
+        conn = DataToMysql(**scrapy_conf.get_scrapy_mysql()).conn
+        self.redis_db = redis.Redis(host='127.0.0.1', port=6379, db=1)
+        self.redis_db.flushdb()
+        sql = "SELECT source_url FROM %s ;" % self.table_name
+        df = pd.read_sql(sql, conn)
+        for url in df["source_url"].get_values():  # 把每一条的值写入key的字段里
+            self.redis_db.hset(self.table_name, url, 0)
 
     def process_request(self, request, spider):
-
         if request.meta.get("pageNum") is not None:
-            print("详情目录" + request.url + "       meta：" + str(request.meta))
-        else:
-            print("根目录" + request.url + "       meta：" + str(request.meta))
+            if self.redis_db.hexists(self.table_name,
+                                     request.url):  # 取item里的url和key里的字段对比，看是否存在，存在就丢掉这个item。不存在返回item给后面的函数处理
+                return HtmlResponse(url=request.url, status=404, request=request)
 
     def spider_closed(self, spider):
         print("关闭去重方法")
@@ -77,12 +88,15 @@ class FilterMiddleware(object):
 
 class SeleniumMiddleware(object):
     def __init__(self):
-        print("此任务通过chrome爬取动态网页内容")
+        print("启动动态引擎*********************")
         chrome_options = Options()
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
+        prefs = {"profile.managed_default_content_settings.images": 2}
+        chrome_options.add_experimental_option("prefs", prefs)
+        chrome_options.add_argument('user-agent="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50"')
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
-        # self.driver.set_page_load_timeout(3)
+        self.driver.set_page_load_timeout(1000)
 
     def __del__(self):
         self.driver.close()
@@ -94,7 +108,8 @@ class SeleniumMiddleware(object):
                                 request=request, encoding="utf-8", status=200)
 
         except:
-            return HtmlResponse(url=request.url, status=500, request=request)
+            print("动态网页抓取失败")
+            return HtmlResponse(url=request.url, status=404, request=request)
 
     def spider_closed(self, spider):
         self.driver.close()

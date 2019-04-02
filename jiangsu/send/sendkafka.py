@@ -48,7 +48,7 @@ class InitKafka:
         self.topic = topic
 
     def send_data(self, data):
-        self.producer.send(self.topic, data.encode("utf-8"))#
+        self.producer.send(self.topic, data.encode("utf-8"))  #
 
     def close(self):
         self.producer.close()
@@ -57,6 +57,6 @@ class InitKafka:
 if __name__ == "__main__":
     inint = InitKafka("spark")
     for k in range(100):
-        inint.send_data(json.dumps({"one":"李奇峰"}))
-        print(json.dumps({"one":"李奇峰"}))
+        inint.send_data(json.dumps({"one": "李奇峰"}))
+        print(json.dumps({"one": "李奇峰"}))
         time.sleep(1)
